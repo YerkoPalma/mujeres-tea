@@ -1,34 +1,27 @@
 <script>
-  export let name
-  import { users } from './store'
-  import New from './components/New.svelte'
-  import List from './components/List.svelte'
+  import Cursor from './components/Cursor.svelte'
 </script>
-
-<main>
-  <h1>Hello {name}!</h1>
-  <p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-  <New />
-  <List />
-  <p>{$users.length} total users</p>
+<main class="page">
+  <div class="page__inner">
+    <!-- The cursor elements --> 
+    <Cursor />
+  </div>
 </main>
-
 <style>
-  main {
-    text-align: center;
-    padding: 1em;
-    max-width: 240px;
-    margin: 0 auto;
+  .page {
+    cursor: none;
   }
-  h1 {
-    color: #ff3e00;
-    text-transform: uppercase;
-    font-size: 4em;
-    font-weight: 100;
+  .page {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
-  @media (min-width: 640px) {
-    main {
-      max-width: none;
-    }
+  .page__inner {
+    display: flex;
+    justify-content: center;
+    width: 100%;
   }
 </style>
