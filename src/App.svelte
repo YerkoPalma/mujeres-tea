@@ -1,13 +1,47 @@
 <script>
-  import Cursor from './components/Cursor.svelte'
+  import { Router, link, Route } from 'svelte-routing'
+  import Home from './pages/Home.svelte'
+  import About from './pages/About.svelte'
+  import Cursor, { handleMouseEnter, handleMouseLeave } from './components/Cursor.svelte'
+
+  export let url = ''
 </script>
 <main class="page">
   <div class="page__inner">
-    <!-- The cursor elements --> 
+    <Router {url}>
+      <nav>
+        <a href="/" use:link on:mouseenter={handleMouseEnter} on:mouseleave={handleMouseLeave}>Home</a>
+        <a href="/about" use:link on:mouseenter={handleMouseEnter} on:mouseleave={handleMouseLeave}>About</a>
+      </nav>
+      <Route path="about" component="{About}" />
+      <Route path="/"><Home /></Route>
+    </Router>
     <Cursor />
   </div>
 </main>
 <style>
+  nav {
+    display: flex;
+    width: 100%;
+    height: 10%;
+    clear: both;
+    padding: 1rem 0;
+  }
+  a {
+    text-decoration: none;
+    padding: 1rem;
+    letter-spacing: .1rem;
+    font-weight: 500;
+    color: #fff;
+  }
+  a:hover,
+  a:visited {
+    text-decoration: none;
+    cursor: none;
+  }
+  a:first-child {
+    margin-left: 1rem;
+  }
   .page {
     cursor: none;
   }
@@ -20,8 +54,9 @@
     align-items: center;
   }
   .page__inner {
-    display: flex;
     justify-content: center;
     width: 100%;
+    position: relative;
+    height: 100vh;
   }
 </style>
