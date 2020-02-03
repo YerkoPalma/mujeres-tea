@@ -15,6 +15,7 @@
       </nav>
       <Route path="about" component="{About}" />
       <Route path="/"><Home /></Route>
+      <Route><h1>Not Found</h1></Route>
     </Router>
     <Cursor />
   </div>
