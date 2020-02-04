@@ -3,18 +3,24 @@
   import Home from './pages/Home.svelte'
   import About from './pages/About.svelte'
   import Cursor, { handleMouseEnter, handleMouseLeave } from './components/Cursor.svelte'
+  import { route } from './store.js'
 
   export let url = ''
+
+  function go (event) {
+    route.update(r => event.target.pathname)
+    console.log(`going to ${event.target.pathname}`)
+  }
 </script>
 <main class="page">
   <div class="page__inner">
     <Router {url}>
       <nav>
-        <a href="/" use:link on:mouseenter={handleMouseEnter} on:mouseleave={handleMouseLeave}>Home</a>
-        <a href="/about" use:link on:mouseenter={handleMouseEnter} on:mouseleave={handleMouseLeave}>About</a>
+        <a href="/" on:click|preventDefault={go} on:mouseenter={handleMouseEnter} on:mouseleave={handleMouseLeave}>Home</a>
+        <a href="/about" on:click|preventDefault={go} on:mouseenter={handleMouseEnter} on:mouseleave={handleMouseLeave}>About</a>
       </nav>
-      <Route path="about" component="{About}" />
-      <Route path="/"><Home /></Route>
+      <Route path="about" component="{About}" pathname="/about"/>
+      <Route path="/" ><Home pathname="/"/></Route>
       <Route><h1>Not Found</h1></Route>
     </Router>
     <Cursor />

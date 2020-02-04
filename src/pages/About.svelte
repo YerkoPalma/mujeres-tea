@@ -1,14 +1,10 @@
 <script>
-  import { fade } from 'svelte/transition'
-  import { onMount } from 'svelte'
-  let ready = false
-  onMount(() => {
-    ready = true
-  })
+  import Page from './_Page.svelte'
+  export let pathname
 </script>
-{#if ready}
-  <h1 in:fade="{{delay: 400}}" out:fade>About</h1>
-{/if}
+<Page {pathname}>
+  <h1>About</h1>
+</Page>
 <style>
   h1 {
     display: block;
