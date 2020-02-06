@@ -7,7 +7,6 @@
   export let pathname
 
   function go () {
-    console.log(`outroend, going to ${$route}`)
     navigate($route)
   }
 </script>
@@ -16,3 +15,8 @@
     <slot></slot>
   </div>
 {/if}
+<style>
+  div {
+    margin-top: 5rem;
+  }
+</style>

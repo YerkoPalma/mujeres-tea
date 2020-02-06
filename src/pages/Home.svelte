@@ -7,6 +7,7 @@
 </Page>
 <style>
   h1 {
+    z-index: -9;
     display: block;
     clear: both;
     position: relative;
