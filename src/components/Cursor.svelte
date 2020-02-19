@@ -8,16 +8,52 @@
   let showCursor = false
   let group, stuckX, stuckY, fillOuterCursor
 
-  export const handleMouseEnter = e => {
-    const navItem = e.currentTarget
-    const navItemBox = navItem.getBoundingClientRect()
-    stuckX = Math.round(navItemBox.left + navItemBox.width / 2)
-    stuckY = Math.round(navItemBox.top + navItemBox.height / 2)
-    isStuck = true
+  export function plainCursor (node) {
+    const handleMouseEnter = e => {
+      const cursor = document.querySelector('div.cursor')
+      cursor.classList.add('medium')
+      cursor.classList.remove('small')
+    }
+
+    const handleMouseLeave = () => {
+      const cursor = document.querySelector('div.cursor')
+      cursor.classList.add('small')
+      cursor.classList.remove('medium')
+    }
+
+    node.addEventListener('mouseenter', handleMouseEnter)
+    node.addEventListener('mouseleave', handleMouseLeave)
+
+    return {
+      destroy () {
+        node.removeEventListener('mouseenter', handleMouseEnter)
+        node.removeEventListener('mouseleave', handleMouseLeave)
+      }
+    }
   }
 
-  export const handleMouseLeave = () => {
-    isStuck = false
+  export function magneticCursor (node) {
+    const handleMouseEnter = e => {
+      const navItem = e.currentTarget
+      const navItemBox = navItem.getBoundingClientRect()
+      stuckX = Math.round(navItemBox.left + navItemBox.width / 2)
+      stuckY = Math.round(navItemBox.top + navItemBox.height / 2)
+      isStuck = true
+    }
+
+    const handleMouseLeave = () => {
+      isStuck = false
+    }
+
+    node.addEventListener('mouseenter', handleMouseEnter)
+    node.addEventListener('mouseleave', handleMouseLeave)
+
+    return {
+      destroy () {
+        node.removeEventListener('mouseenter', handleMouseEnter)
+        node.removeEventListener('mouseleave', handleMouseLeave)
+      }
+    }
   }
 </script>
 
@@ -59,11 +95,12 @@
     const strokeWidth = 1
     const segments = 8
     const radius = 15
-    
+
     // we'll need these later for the noisy circle
     const noiseScale = 150 // speed
     const noiseRange = 4 // range of distortion
     let isNoisy = false // state
+    let isMedium = false
     
     // the base shape for the noisy circle
     const polygon = new paper.Path.RegularPolygon(
@@ -79,7 +116,7 @@
     
     const noiseObjects = polygon.segments.map(() => new SimplexNoise())
     let bigCoordinates = []
-    
+
     // function for linear interpolation of values
     const lerp = (a, b, n) => {
       return (1 - n) * a + n * b
@@ -91,7 +128,7 @@
         ((value - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min
       )
     }
-    
+
     // the draw loop of Paper.js
     // (60fps with requestAnimationFrame under the hood)
     paper.view.onFrame = event => {
@@ -109,7 +146,7 @@
         lastY = lerp(lastY, stuckY, 0.2)
         group.position = new paper.Point(lastX, lastY)
       }
-      
+
       if (isStuck && polygon.bounds.width < shapeBounds.width) { 
         // scale up the shape 
         polygon.scale(1.08)
@@ -156,7 +193,16 @@
           // set new (noisy) coodrindate of point
           segment.point.set(newX, newY)
         })
-        
+      }
+
+      if (innerCursor && innerCursor.classList.contains('medium') && !isMedium) {
+        polygon.scale(0.85)
+        isMedium = true
+        console.log('scale down')
+      } else if (innerCursor && !innerCursor.classList.contains('medium') && isMedium) {
+        polygon.scale(1.15)
+        isMedium = false
+        console.log('scale up')
       }
       polygon.smooth()
     }
@@ -168,7 +214,7 @@
   })
 </script>
 
-<div bind:this={innerCursor} class='cursor cursor--small'></div>
+<div bind:this={innerCursor} class='cursor small'></div>
 <canvas bind:this={canvas} class='cursor cursor--canvas' resize></canvas>
 
 <style>
@@ -177,8 +223,13 @@
     left: 0;
     top: 0;
     pointer-events: none;
+    transition: height .3s ease-in;
+    transition: width .3s ease-in;
+    transition: top .3s ease-in;
+    transition: left .3s ease-in;
+    transition: background .3s ease-in;
   }
-  .cursor--small {
+  .small {
     width: 5px;
     height: 5px;
     left: -2.5px;
@@ -186,6 +237,15 @@
     border-radius: 50%;
     z-index: 11000;
     background: #fff;
+  }
+  :global(.medium) {
+    width: 15px;
+    height: 15px;
+    left: -7.5px;
+    top: -7.5px;
+    border-radius: 50%;
+    z-index: 11000;
+    background: rgba(255, 255, 255, .6);
   }
   .cursor--canvas {
     width: 100vw;

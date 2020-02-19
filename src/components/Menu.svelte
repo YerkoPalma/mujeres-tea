@@ -1,5 +1,5 @@
 <script>
-  import { handleMouseEnter, handleMouseLeave } from './Cursor.svelte'
+  import { magneticCursor } from './Cursor.svelte'
   let isOpen = false
   let handler = toggle
   let noop = () => {}
@@ -19,7 +19,7 @@
   }
 </script>
 <nav class="bt-menu" class:bt-menu-open="{isOpen}">
-  <a href on:click|preventDefault|stopPropagation ="{toggle}" on:mouseenter={handleMouseEnter} on:mouseleave={handleMouseLeave} class="bt-menu-trigger"><span>Menu</span></a>
+  <a href on:click|preventDefault|stopPropagation ="{toggle}" use:magneticCursor class="bt-menu-trigger"><span>Menu</span></a>
   <slot></slot>
   <div on:click="{handler}" class="bt-overlay"></div>
 </nav>

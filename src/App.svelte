@@ -3,7 +3,7 @@
   import Home from './pages/Home.svelte'
   import About from './pages/About.svelte'
   import Menu from './components/Menu.svelte'
-  import Cursor, { handleMouseEnter, handleMouseLeave } from './components/Cursor.svelte'
+  import Cursor, { plainCursor } from './components/Cursor.svelte'
   import { route } from './store.js'
 
   export let url = ''
@@ -17,8 +17,8 @@
     <Router {url}>
       <Menu>
         <ul>
-          <li><a href="/" on:click|preventDefault={go} on:mouseenter={handleMouseEnter} on:mouseleave={handleMouseLeave}>Home</a></li>
-          <li><a href="/about" on:click|preventDefault={go} on:mouseenter={handleMouseEnter} on:mouseleave={handleMouseLeave}>About</a></li>
+          <li><a href="/" on:click|preventDefault={go} use:plainCursor>Home</a></li>
+          <li><a href="/about" on:click|preventDefault={go} use:plainCursor>About</a></li>
           <li><a href>Clients</a></li>
           <li><a href>Blog</a></li>
           <li><a href>Contact</a></li>
