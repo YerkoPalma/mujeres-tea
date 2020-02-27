@@ -1,17 +1,28 @@
 <script>
-  export let segment;
+  import Icon from './Icon.svelte'
+  export let segment
 </script>
 
 <style>
   nav {
-    border-bottom: 1px solid rgba(255,62,0,0.1);
     font-weight: 300;
     padding: 0 1em;
+  }
+
+  button {
+    background: transparent;
+    border: none;
+    padding: .5rem;
+      cursor: pointer;
   }
 
   ul {
     margin: 0;
     padding: 0;
+    position: fixed;
+    width: 20%;
+    top: 0;
+    left: -20%;
   }
 
   /* clearfix */
@@ -24,21 +35,7 @@
   li {
     display: block;
     float: left;
-  }
-
-  [aria-current] {
-    position: relative;
-    display: inline-block;
-  }
-
-  [aria-current]::after {
-    position: absolute;
-    content: '';
-    width: calc(100% - 1em);
-    height: 2px;
-    background-color: rgb(255,62,0);
-    display: block;
-    bottom: -1px;
+    width: 100%;
   }
 
   a {
@@ -48,6 +45,9 @@
   }
 </style>
 
+<button>
+  <Icon name="menu" size="30"></Icon>
+</button>
 <nav>
   <ul>
     <li><a aria-current='{segment === undefined ? "page" : undefined}' href='.'>home</a></li>
