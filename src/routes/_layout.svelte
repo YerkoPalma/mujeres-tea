@@ -8,11 +8,11 @@
   main {
     position: relative;
     max-width: 56em;
-    background-color: white;
+    background-color: transparent;
     padding: 2em;
     margin: 0 auto;
     box-sizing: border-box;
-		z-index: -1;
+    z-index: 10;
   }
 </style>
 

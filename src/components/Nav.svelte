@@ -108,7 +108,7 @@
 <button on:click="{toggle}" bind:this={btn}>
   <Icon name="menu" size="40" color={color} isOpen={isOpen}></Icon>
 </button>
-<nav style="border: #333 solid {$border}rem; border-left: #333 solid {$border * 4}rem;">
+<nav style="z-index:{isOpen ? 50 : 0};border: #333 solid {$border}rem; border-left: #333 solid {$border * 4}rem;">
   <ul style="left:{$left}px;">
     <!-- svelte-ignore a11y-missing-attribute -->
     <li>
