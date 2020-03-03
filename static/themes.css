@@ -1,0 +1,29 @@
+:root {
+  --primary: #333;
+  --secondary: #eee;
+  --primary-text: #212121;
+  --secondary-text: #ddd;
+  --accent: #607D8B;
+}
+
+.light-theme {
+  --primary: #CFD8DC;
+  --secondary: #f8fdff;
+}
+
+.dark-theme {
+  --primary: #455A64;
+  --secondary: #607D8B;
+  --primary-text: #eee;
+  --secondary-text: #eee;
+  --accent: #fff
+}
+
+body {
+  background-color: var(--secondary);
+  color: var(--primary-text);
+}
+
+a, a:visited {
+  color: var(--accent);
+}

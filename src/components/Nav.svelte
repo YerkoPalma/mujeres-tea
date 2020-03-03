@@ -1,5 +1,6 @@
 <script>
   import Icon from './Icon.svelte'
+  import { onMount } from 'svelte'
   import { tweened } from 'svelte/motion'
   import { cubicOut } from 'svelte/easing'
   import { goto } from '@sapper/app'
@@ -13,22 +14,31 @@
     duration: 200,
     easing: cubicOut
   })
-  let color = '#333'
-  let isOpen = false
   export let segment
+  let color
+  let isOpen = false
+  let toggle
+  let primary
+  let secondary
 
-  const toggle = (e) => {
-    if (color === '#333') {
-      left.set(0)
-      border.set(2)
-      color= '#eee'
-    } else {
-      left.set(-300)
-      border.set(0)
-      color= '#333'
+  onMount(() => {
+    primary = getComputedStyle(document.body).getPropertyValue('--primary-text')
+    secondary = getComputedStyle(document.body).getPropertyValue('--secondary-text')
+    color = primary
+
+    toggle = (e) => {
+      if (color === primary) {
+        left.set(0)
+        border.set(2)
+        color= secondary
+      } else {
+        left.set(-300)
+        border.set(0)
+        color= primary
+      }
+      isOpen = !isOpen
     }
-    isOpen = !isOpen
-  }
+  })
 
   const navigate = async (route) => {
     await goto(route)
@@ -57,6 +67,7 @@
     position: absolute;
     margin-left: 1rem;
     outline: none;
+    top: 0;
   }
 
   ul {
@@ -68,7 +79,7 @@
     left: -20%;
     height: 100%;
     z-index: 100;
-    background-color: #333;
+    background-color: var(--primary);
   }
 
   /* clearfix */
@@ -103,12 +114,21 @@
     height: 100%;
     background-color: rgba(255, 255, 255, .4);
   }
+
+  @media (max-width: 768px) {
+    ul {
+      left: 0px;
+      width: 50%;
+      font-size: 1.5rem;
+      padding-left: 1rem;
+    }
+  }
 </style>
 
 <button on:click="{toggle}" bind:this={btn}>
   <Icon name="menu" size="40" color={color} isOpen={isOpen}></Icon>
 </button>
-<nav style="z-index:{isOpen ? 50 : 0};border: #333 solid {$border}rem; border-left: #333 solid {$border * 4}rem;">
+<nav style="z-index:{isOpen ? 50 : 0};border: var(--primary) solid {$border}rem; border-left: var(--primary) solid {$border * 4}rem;">
   <ul style="left:{$left}px;">
     <!-- svelte-ignore a11y-missing-attribute -->
     <li>
@@ -126,7 +146,7 @@
       <a rel=prefetch on:click|preventDefault="{e => navigate('blog')}">blog</a>
     </li>
   </ul>
-  {#if color !== '#333'}
+  {#if primary && color !== primary}
     <div on:click="{toggle}" class="glass"></div>
   {/if}
 </nav>
