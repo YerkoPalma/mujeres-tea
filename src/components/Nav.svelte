@@ -152,7 +152,7 @@
 <button on:click="{toggle}" bind:this={btn}>
   <Icon name="menu" size="40" color={iconColor} isOpen={isOpen}></Icon>
 </button>
-<nav style="z-index:{isOpen ? 50 : 0};border: var(--primary) solid {$border}rem; border-left: var(--primary) solid {$border * 4}rem; border-right: var(--primary) solid {$border * 2}rem;">
+<nav style="z-index:{isOpen ? 50 : 0};border: var(--primary) solid {$border}rem; border-left: var(--primary) solid {$border * 4}rem; border-bottom: var(--primary) solid {$border * 2}rem;">
   <ul class="nav" style="left:{$left}px;">
     <!-- svelte-ignore a11y-missing-attribute -->
     <li>
@@ -175,9 +175,15 @@
   {/if}
   <ul class="toolbar">
     <li>
-    <!-- svelte-ignore a11y-missing-attribute -->
+      <!-- svelte-ignore a11y-missing-attribute -->
       <a on:click|preventDefault="{toggleTheme}">
         <Icon name={isDarkThemed ? 'sun' : 'moon'} color={iconColor}/>
+      </a>
+    </li>
+    <li>
+      <!-- svelte-ignore a11y-missing-attribute -->
+      <a href>
+        <Icon name='theme' color={iconColor}/>
       </a>
     </li>
   </ul>

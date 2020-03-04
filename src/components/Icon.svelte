@@ -53,3 +53,10 @@
     <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
   </svg>
 {/if}
+
+{#if name === 'theme'}
+  <svg viewBox="0 0 24 24" width="{size}" height="{size}" stroke="{color}" stroke-width="{strokeWidth}" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"></circle>
+    <path d="M12,2 Q 30,12 12, 22 Z" fill="{color}"></path>
+  </svg>
+{/if}
