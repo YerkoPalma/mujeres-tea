@@ -15,26 +15,25 @@
     easing: cubicOut
   })
   export let segment
-  let color
+  let iconColor
   let isOpen = false
   let toggle
   let primary
   let secondary
+  let isDarkThemed = false
 
   onMount(() => {
-    primary = getComputedStyle(document.body).getPropertyValue('--primary-text')
-    secondary = getComputedStyle(document.body).getPropertyValue('--secondary-text')
-    color = primary
+    iconColor = getComputedStyle(document.body).getPropertyValue('--primary-text')
 
     toggle = (e) => {
-      if (color === primary) {
+      if (!isOpen) {
         left.set(0)
         border.set(2)
-        color= secondary
+        iconColor = getComputedStyle(document.body).getPropertyValue('--secondary-text')
       } else {
         left.set(-300)
         border.set(0)
-        color= primary
+        iconColor = getComputedStyle(document.body).getPropertyValue('--primary-text')
       }
       isOpen = !isOpen
     }
@@ -43,6 +42,15 @@
   const navigate = async (route) => {
     await goto(route)
     btn.click()
+  }
+  const toggleTheme = () => {
+    isDarkThemed = !isDarkThemed
+    document.body.classList.toggle('dark-theme')
+    if (isOpen) {
+      iconColor = getComputedStyle(document.body).getPropertyValue('--secondary-text')
+    } else {
+      iconColor = getComputedStyle(document.body).getPropertyValue('--primary-text')
+    }
   }
 </script>
 
@@ -70,7 +78,7 @@
     top: 0;
   }
 
-  ul {
+  ul.nav {
     margin: 0;
     padding: 3.5rem 0;
     position: fixed;
@@ -83,7 +91,7 @@
   }
 
   /* clearfix */
-  ul::after {
+  ul.nav::after {
     content: '';
     display: block;
     clear: both;
@@ -105,7 +113,7 @@
     text-transform: uppercase;
     border-top: 1px #222 solid;
   }
-  li:last-child a {
+  ul.nav li:last-child a {
     border-bottom: 1px #222 solid;
   }
   .glass {
@@ -115,8 +123,24 @@
     background-color: rgba(255, 255, 255, .4);
   }
 
+  ul.toolbar {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    right: 0;
+  }
+
+  ul.toolbar li {
+    width: 50px;
+    float: right;
+    display: flex;
+  }
+
+  ul.toolbar li a {
+    border: none;
+  }
   @media (max-width: 768px) {
-    ul {
+    ul.nav {
       left: 0px;
       width: 50%;
       font-size: 1.5rem;
@@ -126,10 +150,10 @@
 </style>
 
 <button on:click="{toggle}" bind:this={btn}>
-  <Icon name="menu" size="40" color={color} isOpen={isOpen}></Icon>
+  <Icon name="menu" size="40" color={iconColor} isOpen={isOpen}></Icon>
 </button>
-<nav style="z-index:{isOpen ? 50 : 0};border: var(--primary) solid {$border}rem; border-left: var(--primary) solid {$border * 4}rem;">
-  <ul style="left:{$left}px;">
+<nav style="z-index:{isOpen ? 50 : 0};border: var(--primary) solid {$border}rem; border-left: var(--primary) solid {$border * 4}rem; border-right: var(--primary) solid {$border * 2}rem;">
+  <ul class="nav" style="left:{$left}px;">
     <!-- svelte-ignore a11y-missing-attribute -->
     <li>
       <a on:click|preventDefault="{e => navigate('.')}">home</a>
@@ -146,7 +170,15 @@
       <a rel=prefetch on:click|preventDefault="{e => navigate('blog')}">blog</a>
     </li>
   </ul>
-  {#if primary && color !== primary}
+  {#if isOpen}
     <div on:click="{toggle}" class="glass"></div>
   {/if}
+  <ul class="toolbar">
+    <li>
+    <!-- svelte-ignore a11y-missing-attribute -->
+      <a on:click|preventDefault="{toggleTheme}">
+        <Icon name={isDarkThemed ? 'sun' : 'moon'} color={iconColor}/>
+      </a>
+    </li>
+  </ul>
 </nav>
