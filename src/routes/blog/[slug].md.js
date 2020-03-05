@@ -7,7 +7,7 @@ export async function get (req, res, next) {
   // the `slug` parameter is available because
   // this file is called [slug].json.js
   const { slug } = req.params
-  const file = path.join(process.cwd(), 'static', 'content', `${slug}.md`)
+  const file = path.join(process.cwd(), 'content', `${slug}.md`)
   const stats = await fs.stat(file)
 
   if (stats && stats.isFile()) {

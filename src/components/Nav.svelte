@@ -150,13 +150,16 @@
       font-size: 1.5rem;
       padding-left: 1rem;
     }
+    ul.toolbar {
+      margin-bottom: 10%;
+    }
   }
 </style>
 
 <button on:click="{toggle}" bind:this={btn}>
   <Icon name="menu" size="40" color={iconColor} isOpen={isOpen}></Icon>
 </button>
-<nav style="z-index:{isOpen ? 50 : 0};border: var(--primary) solid {$border}rem; border-left: var(--primary) solid {$border * 4}rem; border-bottom: var(--primary) solid {$border * 2}rem;">
+<nav style="z-index:{isOpen ? 50 : 0};border: var(--primary) solid {$border}rem; border-left: var(--primary) solid {$border * 4}rem; border-bottom: var(--primary) solid {$border * 3}rem;">
   <ul class="nav" style="left:{$left}px;">
     <!-- svelte-ignore a11y-missing-attribute -->
     <li>
@@ -186,7 +189,14 @@
     </li>
     <li>
       <!-- svelte-ignore a11y-missing-attribute -->
-      <Popover visible={showThemePane}>Testing</Popover>
+      <Popover visible={showThemePane}>
+        <div class="show">
+          <Icon name='theme' color="#F25F5C"/>
+          <Icon name='theme' color="#FFE066"/>
+          <Icon name='theme' color="#247BA0"/>
+          <Icon name='theme' color="#70C1B3"/>
+        </div>
+      </Popover>
       <a href bind:this={trigger} on:click|preventDefault="{e => showThemePane = !showThemePane}">
         <Icon name='theme' color={iconColor}/>
       </a>
