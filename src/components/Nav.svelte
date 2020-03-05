@@ -1,5 +1,6 @@
 <script>
   import Icon from './Icon.svelte'
+  import Popover, { init } from './Popover.svelte'
   import { onMount } from 'svelte'
   import { tweened } from 'svelte/motion'
   import { cubicOut } from 'svelte/easing'
@@ -21,9 +22,12 @@
   let primary
   let secondary
   let isDarkThemed = false
+  let trigger
+  let showThemePane = false
 
   onMount(() => {
     iconColor = getComputedStyle(document.body).getPropertyValue('--primary-text')
+    init(trigger)
 
     toggle = (e) => {
       if (!isOpen) {
@@ -182,7 +186,8 @@
     </li>
     <li>
       <!-- svelte-ignore a11y-missing-attribute -->
-      <a href>
+      <Popover visible={showThemePane}>Testing</Popover>
+      <a href bind:this={trigger} on:click|preventDefault="{e => showThemePane = !showThemePane}">
         <Icon name='theme' color={iconColor}/>
       </a>
     </li>
