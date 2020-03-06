@@ -60,3 +60,16 @@
     <path d="M12,2 Q 30,12 12, 22 Z" fill="{color}"></path>
   </svg>
 {/if}
+
+{#if name === 'play'}
+  <svg viewBox="0 0 24 24" width="{size}" height="{size}" stroke="{color}" stroke-width="{strokeWidth}" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+  </svg>
+{/if}
+
+{#if name === 'stop'}
+  <svg viewBox="0 0 24 24" width="{size}" height="{size}" stroke="{color}" stroke-width="{strokeWidth}" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"></circle>
+    <rect x="9" y="9" width="6" height="6"></rect>
+  </svg>
+{/if}

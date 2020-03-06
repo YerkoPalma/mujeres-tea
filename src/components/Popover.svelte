@@ -39,8 +39,8 @@
 </script>
 <style>
   .tooltip {
-    background: #333;
-    color: white;
+    background: var(--primary);
+    color: var(--primary-text);
     font-weight: bold;
     padding: 4px 8px;
     font-size: 13px;

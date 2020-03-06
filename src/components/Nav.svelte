@@ -22,8 +22,11 @@
   let primary
   let secondary
   let isDarkThemed = false
+  let isReading = false
   let trigger
+  let toggleRead = () => {}
   let showThemePane = false
+  let speech
 
   onMount(() => {
     iconColor = getComputedStyle(document.body).getPropertyValue('--primary-text')
@@ -40,6 +43,32 @@
         iconColor = getComputedStyle(document.body).getPropertyValue('--primary-text')
       }
       isOpen = !isOpen
+    }
+
+    if (window) {
+      import('nanospeech')
+        .then(({ speak }) => {
+          toggleRead = e => {
+            if (isReading) {
+              if (speech) {
+                speech.cancel()
+                speech = null
+              }
+              isReading = false
+            } else {
+              let text = window.getSelection().toString()
+              if (!text) {
+                text = document.querySelector('main').textContent
+              }
+              speech = speak(text, { lang: 'en-GB'})
+              speech.on('end', () => {
+                isReading = false
+                speech = null
+              })
+              isReading = true
+            }
+          }
+        })
     }
   })
 
@@ -199,6 +228,11 @@
       </Popover>
       <a href bind:this={trigger} on:click|preventDefault="{e => showThemePane = !showThemePane}">
         <Icon name='theme' color={iconColor}/>
+      </a>
+    </li>
+    <li>
+      <a href on:click|preventDefault="{toggleRead}">
+        <Icon name={isReading ? 'stop' : 'play'} color={iconColor}/>
       </a>
     </li>
   </ul>

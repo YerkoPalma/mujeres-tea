@@ -1,7 +1,7 @@
 :root {
   --primary: #333;
-  --secondary: #eee;
-  --primary-text: #212121;
+  --secondary: #f6f8fa;
+  --primary-text: #2f363d;
   --secondary-text: #ddd;
   --accent: #607D8B;
 }
@@ -12,9 +12,9 @@
 }
 
 .dark-theme {
-  --primary: #455A64;
-  --secondary: #607D8B;
-  --primary-text: #eee;
+  --primary: #2f363d;
+  --secondary: #24292e;
+  --primary-text: #fff;
   --secondary-text: #eee;
   --accent: #fff
 }
