@@ -23,10 +23,10 @@
   let secondary
   let isDarkThemed = false
   let isReading = false
+  let firstRead = true
   let trigger
   let toggleRead = () => {}
   let showThemePane = false
-  let speech
 
   onMount(() => {
     iconColor = getComputedStyle(document.body).getPropertyValue('--primary-text')
@@ -50,22 +50,44 @@
         .then(({ speak }) => {
           toggleRead = e => {
             if (isReading) {
-              if (speech) {
-                speech.cancel()
-                speech = null
-              }
+              window.speechSynthesis.cancel()
               isReading = false
             } else {
               let text = window.getSelection().toString()
               if (!text) {
                 text = document.querySelector('main').textContent
               }
-              speech = speak(text, { lang: 'en-GB'})
-              speech.on('end', () => {
-                isReading = false
-                speech = null
-              })
+              if (firstRead) {
+                firstRead = false
+                window.speechSynthesis.addEventListener('voiceschanged', () => {
+                  talk(text, { lang: 'en-GB'}, () => {
+                    isReading = false
+                  })
+                }, { once: true })
+              } else {
+                talk(text, { lang: 'en-GB'}, () => {
+                  isReading = false
+                })
+              }
               isReading = true
+            }
+          }
+
+          function talk (text, opts, cb) {
+            if (text) {
+              // make queue from text
+              const length = opts.length || 160
+              const regex = new RegExp('[\\s\\S]{1,' + length + '}[.!?,]{1}|[\\s\\S]{1,' + length + '}', 'g')
+              const chunks = text.match(regex)
+              const words = chunks.shift()
+              const speech = speak(words, opts)
+              if (chunks.length) {
+                speech.on('end', talk(chunks.join(' ').trim(), opts, cb))
+              } else {
+                speech.on('end', cb)
+              }
+            } else {
+              cb()
             }
           }
         })

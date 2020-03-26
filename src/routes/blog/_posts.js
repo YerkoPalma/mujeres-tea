@@ -11,6 +11,10 @@ const posts = [
   {
     title: 'What is Sapper?',
     slug: 'sapper'
+  },
+  {
+    title: 'Hacker laws',
+    slug: 'laws'
   }
 ]
 
