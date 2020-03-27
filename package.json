@@ -3,8 +3,8 @@
   "description": "mujeres-tea",
   "version": "0.0.1",
   "scripts": {
-    "dev": "sapper dev",
-    "build": "sapper build --legacy",
+    "dev": "sapper dev --ext '.md .svelte'",
+    "build": "sapper build --ext '.md .svelte' --legacy",
     "export": "sapper export --legacy",
     "start": "node __sapper__/build",
     "cy:run": "cypress run",
@@ -33,8 +33,9 @@
     "rollup-plugin-babel": "^4.0.2",
     "rollup-plugin-svelte": "^5.0.1",
     "rollup-plugin-terser": "^4.0.4",
-    "sapper": "^0.27.0",
+    "sapper": "^0.27.11",
     "svelte": "^3.0.0",
-    "svelte-css-vars": "0.0.1"
+    "svelte-css-vars": "0.0.1",
+    "svelte-preprocess-markdown": "^2.7.0"
   }
 }

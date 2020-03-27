@@ -1,1 +1,0 @@
-Amdahl's Law is a formula which shows the potential speedup of a computational task which can be achieved by increasing the resources of a system. Normally used in parallel computing, it can predict the actual benefit of increasing the number of processors, which is limited by the parallelisability of the program.
