@@ -9,6 +9,7 @@
   let video
   let progress
   let playing = false
+  let muted = false
   let max = 10
   let progressValue = tweened(0, {
     duration: 400,
@@ -19,7 +20,7 @@
     max = video.duration
   }
   const timeupdate = () => {
-    progressValue.set(video.currentTime)
+    progressValue.set(Math.floor((video.currentTime / video.duration) * 100))
   }
   const handlePlaypause = () => {
     if (playing) {
@@ -29,19 +30,43 @@
     }
     playing = !playing
   }
+  const handleMuted = () => {
+    muted = !muted
+  }
+  const updateDuration = (e) => {
+    const pos = (e.offsetX) / progress.offsetWidth
+    video.currentTime = pos * video.duration
+    timeupdate()
+  }
 </script>
 
 <style>
   figure {
     position: relative;
   }
-  progress {
+  .progress {
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
-    height: 1.5vh;
+    height: 4.5px;
     margin-bottom: 5px;
     margin-top: 5px;
+    background-color: #555;
+    position: relative;
+  }
+  .progress-bar {
+    background-color: #A463F2;
+    height: 100%;
+    display: block;
+  }
+  .progress-value {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: -3px;
+    display: inline-block;
+    border-radius: 99px;
+    background-color: #ddd;
   }
   .controls {
     position: absolute;
@@ -72,14 +97,20 @@
     type='video/mp4'
     width="100%"
     preload="metadata"
+    muted="{muted}"
     bind:this={video}
     on:loadedmetadata={loadedmetadata}
     on:timeupdate={timeupdate}
   ></video>
   <div class="controls">
-    <progress bind:this={progress} value="{$progressValue}" min="0" max={max}></progress>
+    <div class="progress" bind:this={progress} on:click={updateDuration}>
+      <span class="progress-bar" style="width: {$progressValue}%"></span>
+      <span class="progress-value" style="margin-left: {$progressValue}%"></span>
+    </div>
+    <!-- <progress bind:this={progress} value="{$progressValue}" min="0" max={max}></progress> -->
     <div class="buttons">
       <button on:click|preventDefault={handlePlaypause} class="playpause"><Icon name="{playing ? 'pause' : 'play'}" solid="true"></Icon></button>
+      <button on:click|preventDefault={handleMuted} class="muteToggle"><Icon color="#ddd" name="{muted ? 'mute' : 'volume'}" solid="true"></Icon></button>
     </div>
   </div>
 </figure>
