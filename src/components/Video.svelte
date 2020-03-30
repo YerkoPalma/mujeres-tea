@@ -8,6 +8,7 @@
 
   let video
   let progress
+  let volumeControl
   let playing = false
   let muted = false
   let max = 10
@@ -38,11 +39,117 @@
     video.currentTime = pos * video.duration
     timeupdate()
   }
+  const setVolume = () => {
+    video.volume = volumeControl.value
+  }
 </script>
 
 <style>
   figure {
     position: relative;
+  }
+  input[type=range] {
+    -webkit-appearance: none;
+    margin-bottom: 7.5px;
+    width: 10%;
+    background-color: transparent;
+
+    --track-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    --track-bg: #ddd;
+    --track-border: 0.2px solid #010101;
+    --track-height: 4px;
+    --track-br: 1.3px;
+    --track-focus-bg: #eee;
+
+    --thumb-color: #ffffff;
+    --thumb-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    --thumb-height: 10px;
+    --thumb-width: 10px;
+    --thumb-border: 1px solid #000000;
+    --thumb-br: 99px;
+  }
+  input[type=range]:focus {
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: var(--track-height);
+    cursor: pointer;
+    animate: 0.2s;
+    box-shadow: var(--track-shadow);
+    background: var(--track-bg);
+    border-radius: var(--track-br);
+    border: var(--track-border);
+  }
+  input[type=range]::-webkit-slider-thumb {
+    box-shadow: var(--thumb-shadow);
+    border: var(--thumb-border);
+    height: var(--thumb-height);
+    width: var(--thumb-width);
+    border-radius: var(--thumb-br);
+    background: var(--thumb-color);
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -3px;
+  }
+  input[type=range]:focus::-webkit-slider-runnable-track {
+    background: var(--track-focus-bg);
+  }
+  input[type=range]::-moz-range-track {
+    width: 100%;
+    height: var(--track-height);
+    cursor: pointer;
+    animate: 0.2s;
+    box-shadow: var(--track-shadow);
+    background: var(--track-bg);
+    border-radius: var(--track-br);
+    border: var(--track-border);
+  }
+  input[type=range]::-moz-range-thumb {
+    box-shadow: var(--thumb-shadow);
+    border: var(--thumb-border);
+    height: var(--thumb-height);
+    width: var(--thumb-width);
+    border-radius: var(--thumb-br);
+    background: var(--thumb-color);
+    cursor: pointer;
+  }
+  input[type=range]::-ms-track {
+    width: 100%;
+    height: var(--track-height);
+    cursor: pointer;
+    animate: 0.2s;
+    background: transparent;
+    border-color: transparent;
+    border-width: 16px 0;
+    color: transparent;
+  }
+  input[type=range]::-ms-fill-lower {
+    box-shadow: var(--track-shadow);
+    background: var(--track-bg);
+    border-radius: var(--track-br);
+    border: var(--track-border);
+  }
+  input[type=range]::-ms-fill-upper {
+    box-shadow: var(--track-shadow);
+    background: var(--track-bg);
+    border-radius: var(--track-br);
+    border: var(--track-border);
+  }
+  input[type=range]::-ms-thumb {
+    box-shadow: var(--thumb-shadow);
+    border: var(--thumb-border);
+    height: var(--thumb-height);
+    width: var(--thumb-width);
+    border-radius: var(--thumb-br);
+    background: var(--thumb-color);
+    cursor: pointer;
+  }
+  input[type=range]:focus::-ms-fill-lower {
+    background: var(--track-focus-bg);
+  }
+  input[type=range]:focus::-ms-fill-upper {
+    background: var(--track-focus-bg);
   }
   .progress {
     -webkit-appearance: none;
@@ -111,6 +218,7 @@
     <div class="buttons">
       <button on:click|preventDefault={handlePlaypause} class="playpause"><Icon name="{playing ? 'pause' : 'play'}" solid="true"></Icon></button>
       <button on:click|preventDefault={handleMuted} class="muteToggle"><Icon color="#ddd" name="{muted ? 'mute' : 'volume'}" solid="true"></Icon></button>
+      <input on:change={setVolume} bind:this={volumeControl} type="range" min="0" value="1" max="1" step="0.01">
     </div>
   </div>
 </figure>
