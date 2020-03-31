@@ -12,6 +12,7 @@
   let playing = false
   let muted = false
   let max = 10
+  let currentTime = 0
   let progressValue = tweened(0, {
     duration: 400,
     easing: cubicOut
@@ -22,6 +23,7 @@
   }
   const timeupdate = () => {
     progressValue.set(Math.floor((video.currentTime / video.duration) * 100))
+    currentTime = video.currentTime >> 0
   }
   const handlePlaypause = () => {
     if (playing) {
@@ -195,6 +197,12 @@
     cursor: pointer;
     outline: none;
   }
+  .buttons span {
+    color: #ddd;
+    font-size: .9rem;
+    padding-top: .15rem;
+    margin-left: .25rem;
+  }
 </style>
 
 <figure>
@@ -219,6 +227,9 @@
       <button on:click|preventDefault={handlePlaypause} class="playpause"><Icon name="{playing ? 'pause' : 'play'}" solid="true"></Icon></button>
       <button on:click|preventDefault={handleMuted} class="muteToggle"><Icon color="#ddd" name="{muted ? 'mute' : 'volume'}" solid="true"></Icon></button>
       <input on:change={setVolume} bind:this={volumeControl} type="range" min="0" value="1" max="1" step="0.01">
+      <span class="currentTime">{`${(currentTime / 60) >> 0}:${((currentTime % 60) >> 0).toString().padStart(2, '0')}`}</span>
+      <span class="separator">/</span>
+      <span class="duration">{`${(max / 60) >> 0}:${((max % 60) >> 0).toString().padStart(2, '0')}`}</span>
     </div>
   </div>
 </figure>
