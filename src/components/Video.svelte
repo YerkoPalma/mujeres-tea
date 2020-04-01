@@ -38,6 +38,17 @@
   const handleMuted = () => {
     muted = !muted
   }
+  const togglePip = async () => {
+    try {
+      if (video !== document.pictureInPictureElement) {
+        await video.requestPictureInPicture()
+      } else {
+        await document.exitPictureInPicture()
+      }
+    } catch(error) {
+      alert(error)
+    }
+  }
   const toggleFullscreen = () => {
     if (!fullscreen) {
       container.requestFullscreen()
@@ -247,6 +258,7 @@
       <span class="duration">{`${(max / 60) >> 0}:${((max % 60) >> 0).toString().padStart(2, '0')}`}</span>
       <div class="rigth-buttons">
         <button on:click|preventDefault={toggleFullscreen} class="toggleFullscreen"><Icon color="#ddd" name="{fullscreen ? 'minimize' : 'maximize'}"></Icon></button>
+        <button on:click|preventDefault={togglePip} class="pip"><Icon color="#ddd" name="floating-panel"></Icon></button>
       </div>
     </div>
   </div>
