@@ -6,11 +6,13 @@
   export let src
   export let poster
 
+  let container
   let video
   let progress
   let volumeControl
   let playing = false
   let muted = false
+  let fullscreen = false
   let max = 10
   let currentTime = 0
   let progressValue = tweened(0, {
@@ -35,6 +37,14 @@
   }
   const handleMuted = () => {
     muted = !muted
+  }
+  const toggleFullscreen = () => {
+    if (!fullscreen) {
+      container.requestFullscreen()
+    } else {
+      document.exitFullscreen()
+    }
+    fullscreen = !fullscreen
   }
   const updateDuration = (e) => {
     const pos = (e.offsetX) / progress.offsetWidth
@@ -179,7 +189,7 @@
   }
   .controls {
     position: absolute;
-    bottom: .3rem;
+    bottom: 0;
     display: flex;
     width: 100%;
     background-color: #111;
@@ -203,9 +213,14 @@
     padding-top: .15rem;
     margin-left: .25rem;
   }
+  .rigth-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+  }
 </style>
 
-<figure>
+<figure bind:this={container}>
   <video
     src='{src}'
     poster='{poster}'
@@ -230,6 +245,9 @@
       <span class="currentTime">{`${(currentTime / 60) >> 0}:${((currentTime % 60) >> 0).toString().padStart(2, '0')}`}</span>
       <span class="separator">/</span>
       <span class="duration">{`${(max / 60) >> 0}:${((max % 60) >> 0).toString().padStart(2, '0')}`}</span>
+      <div class="rigth-buttons">
+        <button on:click|preventDefault={toggleFullscreen} class="toggleFullscreen"><Icon color="#ddd" name="{fullscreen ? 'minimize' : 'maximize'}"></Icon></button>
+      </div>
     </div>
   </div>
 </figure>
