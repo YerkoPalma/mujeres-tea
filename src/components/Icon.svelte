@@ -115,3 +115,11 @@
     <rect x="11" y="11" width="6" height="6" rx="0" ry="0" fill="currentColor"></rect>
   </svg>
 {/if}
+
+{#if name === 'loading'}
+  <svg width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+    <circle cx="50" cy="50" fill="none" stroke="{color}" stroke-width="10" r="30" stroke-dasharray="141.37166941154067 49.12388980384689" transform="rotate(56.9729 50 50)">
+      <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform>
+    </circle>
+  </svg>
+{/if}

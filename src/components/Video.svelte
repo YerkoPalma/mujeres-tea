@@ -6,6 +6,7 @@
   export let src
   export let poster
 
+  let loading = true
   let container
   let video
   let progress
@@ -13,12 +14,13 @@
   let playing = false
   let muted = false
   let fullscreen = false
-  let max = 10
+  let max = 0
   let currentTime = 0
   let progressValue = tweened(0, {
     duration: 400,
     easing: cubicOut
   })
+  const pipEnabled = 'pictureInPictureEnabled' in document && document.pictureInPictureEnabled
 
   const loadedmetadata = () => {
     max = video.duration
@@ -57,6 +59,9 @@
     }
     fullscreen = !fullscreen
   }
+  const canplaythrough = () => {
+    loading = false
+  }
   const updateDuration = (e) => {
     const pos = (e.offsetX) / progress.offsetWidth
     video.currentTime = pos * video.duration
@@ -70,6 +75,18 @@
 <style>
   figure {
     position: relative;
+  }
+  video.loading {
+    display: none;
+  }
+  .loading-container {
+    margin: 0 auto;
+    position: relative;
+    display: block;
+    text-align: center;
+    background-color: #111;
+    color: #ddd;
+    min-height: 250px;
   }
   input[type=range] {
     -webkit-appearance: none;
@@ -232,8 +249,14 @@
 </style>
 
 <figure bind:this={container}>
+  {#if loading}
+    <div class="loading-container">
+      <Icon name="loading" color="#ddd"></Icon>
+    </div>
+  {/if}
   <video
     src='{src}'
+    class:loading
     poster='{poster}'
     type='video/mp4'
     width="100%"
@@ -242,6 +265,7 @@
     bind:this={video}
     on:loadedmetadata={loadedmetadata}
     on:timeupdate={timeupdate}
+    on:canplaythrough={canplaythrough}
   ></video>
   <div class="controls">
     <div class="progress" bind:this={progress} on:click={updateDuration}>
@@ -258,7 +282,9 @@
       <span class="duration">{`${(max / 60) >> 0}:${((max % 60) >> 0).toString().padStart(2, '0')}`}</span>
       <div class="rigth-buttons">
         <button on:click|preventDefault={toggleFullscreen} class="toggleFullscreen"><Icon color="#ddd" name="{fullscreen ? 'minimize' : 'maximize'}"></Icon></button>
-        <button on:click|preventDefault={togglePip} class="pip"><Icon color="#ddd" name="floating-panel"></Icon></button>
+        {#if pipEnabled}
+          <button on:click|preventDefault={togglePip} class="pip"><Icon color="#ddd" name="floating-panel"></Icon></button>
+        {/if}
       </div>
     </div>
   </div>
