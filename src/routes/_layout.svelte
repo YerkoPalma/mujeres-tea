@@ -14,6 +14,12 @@
     box-sizing: border-box;
     z-index: 10;
   }
+  /* Smartphones (portrait) ----------- */
+  @media only screen and (max-width : 768px) {
+    main {
+      padding-top: 4rem;
+    }
+  }
 </style>
 
 <Nav {segment}/>

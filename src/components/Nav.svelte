@@ -7,7 +7,7 @@
   import { goto } from '@sapper/app'
 
   let btn
-  const left = tweened(-300, {
+  const left = tweened(-500, {
     duration: 200,
     easing: cubicOut
   })
@@ -16,6 +16,8 @@
     easing: cubicOut
   })
   export let segment
+
+  let nav
   let iconColor
   let isOpen = false
   let toggle
@@ -27,10 +29,12 @@
   let trigger
   let toggleRead = () => {}
   let showThemePane = false
+  let mobileFactor = 3
 
   onMount(() => {
     iconColor = getComputedStyle(document.body).getPropertyValue('--primary-text')
     init(trigger)
+    mobileFactor = window.matchMedia('(max-width : 768px)').matches ? 2 : 3
 
     toggle = (e) => {
       if (!isOpen) {
@@ -38,7 +42,7 @@
         border.set(2)
         iconColor = getComputedStyle(document.body).getPropertyValue('--secondary-text')
       } else {
-        left.set(-300)
+        left.set(-getComputedStyle(nav).width.slice(0, -2))
         border.set(0)
         iconColor = getComputedStyle(document.body).getPropertyValue('--primary-text')
       }
@@ -201,17 +205,17 @@
       font-size: 1.5rem;
       padding-left: 1rem;
     }
-    ul.toolbar {
+    /* ul.toolbar {
       margin-bottom: 10%;
-    }
+    } */
   }
 </style>
 
 <button on:click="{toggle}" bind:this={btn}>
   <Icon name="menu" size="40" color={iconColor} isOpen={isOpen}></Icon>
 </button>
-<nav style="z-index:{isOpen ? 50 : 0};border: var(--primary) solid {$border}rem; border-left: var(--primary) solid {$border * 4}rem; border-bottom: var(--primary) solid {$border * 3}rem;">
-  <ul class="nav" style="left:{$left}px;">
+<nav style="z-index:{isOpen ? 50 : 0};border: var(--primary) solid {$border}rem; border-left: var(--primary) solid {$border * 4}rem; border-bottom: var(--primary) solid {$border * mobileFactor}rem;">
+  <ul class="nav" bind:this={nav} style="left:{$left}px;">
     <!-- svelte-ignore a11y-missing-attribute -->
     <li>
       <a on:click|preventDefault="{e => navigate('.')}">home</a>
