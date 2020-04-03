@@ -18,6 +18,7 @@
   @media only screen and (max-width : 768px) {
     main {
       padding-top: 4rem;
+      padding-bottom: 4rem;
     }
   }
 </style>

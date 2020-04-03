@@ -187,6 +187,7 @@
     width: 100%;
     bottom: 0;
     right: 0;
+    z-index: 50;
   }
 
   ul.toolbar li {
@@ -235,31 +236,31 @@
   {#if isOpen}
     <div on:click="{toggle}" class="glass"></div>
   {/if}
-  <ul class="toolbar">
-    <li>
-      <!-- svelte-ignore a11y-missing-attribute -->
-      <a on:click|preventDefault="{toggleTheme}">
-        <Icon name={isDarkThemed ? 'sun' : 'moon'} color={iconColor}/>
-      </a>
-    </li>
-    <li>
-      <!-- svelte-ignore a11y-missing-attribute -->
-      <Popover visible={showThemePane}>
-        <div class="show">
-          <Icon name='theme' color="#F25F5C"/>
-          <Icon name='theme' color="#FFE066"/>
-          <Icon name='theme' color="#247BA0"/>
-          <Icon name='theme' color="#70C1B3"/>
-        </div>
-      </Popover>
-      <a href bind:this={trigger} on:click|preventDefault="{e => showThemePane = !showThemePane}">
-        <Icon name='theme' color={iconColor}/>
-      </a>
-    </li>
-    <li>
-      <a href on:click|preventDefault="{toggleRead}">
-        <Icon name={isReading ? 'stop' : 'play'} color={iconColor}/>
-      </a>
-    </li>
-  </ul>
 </nav>
+<ul class="toolbar" style="background-color: {isOpen ? 'transparent' : 'var(--secondary)'}">
+  <li>
+    <!-- svelte-ignore a11y-missing-attribute -->
+    <a on:click|preventDefault="{toggleTheme}">
+      <Icon name={isDarkThemed ? 'sun' : 'moon'} color={iconColor}/>
+    </a>
+  </li>
+  <li>
+    <!-- svelte-ignore a11y-missing-attribute -->
+    <Popover visible={showThemePane}>
+      <div class="show">
+        <Icon name='theme' color="#F25F5C"/>
+        <Icon name='theme' color="#FFE066"/>
+        <Icon name='theme' color="#247BA0"/>
+        <Icon name='theme' color="#70C1B3"/>
+      </div>
+    </Popover>
+    <a href bind:this={trigger} on:click|preventDefault="{e => showThemePane = !showThemePane}">
+      <Icon name='theme' color={iconColor}/>
+    </a>
+  </li>
+  <li>
+    <a href on:click|preventDefault="{toggleRead}">
+      <Icon name={isReading ? 'stop' : 'play'} color={iconColor}/>
+    </a>
+  </li>
+</ul>

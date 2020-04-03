@@ -77,3 +77,10 @@ select {
     scroll-behavior: auto !important;
   }
 }
+
+pre {
+  overflow: auto;
+}
+main {
+  overflow-x: hidden;
+}
