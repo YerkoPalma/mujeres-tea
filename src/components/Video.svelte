@@ -82,6 +82,9 @@
   figure {
     position: relative;
   }
+  figure:fullscreen {
+    display: flex;
+  }
   video.loading {
     display: none;
   }
