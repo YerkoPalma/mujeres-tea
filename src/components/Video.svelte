@@ -1,5 +1,6 @@
 <script>
   import Icon from './Icon.svelte'
+  import { onMount } from 'svelte'
   import { tweened } from 'svelte/motion'
   import { cubicOut } from 'svelte/easing'
 
@@ -7,6 +8,7 @@
   export let poster
 
   let loading = true
+  let showVolumeSlider = true
   let container
   let video
   let progress
@@ -70,6 +72,10 @@
   const setVolume = () => {
     video.volume = volumeControl.value
   }
+  onMount(() => {
+    // check media query
+    showVolumeSlider = !window.matchMedia('(max-width : 768px)').matches
+  })
 </script>
 
 <style>
@@ -276,7 +282,9 @@
     <div class="buttons">
       <button on:click|preventDefault={handlePlaypause} class="playpause"><Icon name="{playing ? 'pause' : 'play'}" solid="true"></Icon></button>
       <button on:click|preventDefault={handleMuted} class="muteToggle"><Icon color="#ddd" name="{muted ? 'mute' : 'volume'}" solid="true"></Icon></button>
-      <input on:change={setVolume} bind:this={volumeControl} type="range" min="0" value="1" max="1" step="0.01">
+      {#if showVolumeSlider}
+        <input on:change={setVolume} bind:this={volumeControl} type="range" min="0" value="1" max="1" step="0.01">
+      {/if}
       <span class="currentTime">{`${(currentTime / 60) >> 0}:${((currentTime % 60) >> 0).toString().padStart(2, '0')}`}</span>
       <span class="separator">/</span>
       <span class="duration">{`${(max / 60) >> 0}:${((max % 60) >> 0).toString().padStart(2, '0')}`}</span>
