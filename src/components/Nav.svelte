@@ -212,25 +212,25 @@
   }
 </style>
 
-<button on:click="{toggle}" bind:this={btn}>
+<button on:click="{toggle}" bind:this={btn} aria-label="Menu">
   <Icon name="menu" size="40" color={iconColor} isOpen={isOpen}></Icon>
 </button>
 <nav style="z-index:{isOpen ? 50 : 0};border: var(--primary) solid {$border}rem; border-left: var(--primary) solid {$border * 4}rem; border-bottom: var(--primary) solid {$border * mobileFactor}rem;">
   <ul class="nav" bind:this={nav} style="left:{$left}px;">
     <!-- svelte-ignore a11y-missing-attribute -->
     <li>
-      <a on:click|preventDefault="{e => navigate('.')}">home</a>
+      <a on:click|preventDefault="{e => navigate('.')}" aria-label="Home page">home</a>
     </li>
     <!-- svelte-ignore a11y-missing-attribute -->
     <li>
-      <a on:click|preventDefault="{e => navigate('about')}">about</a>
+      <a on:click|preventDefault="{e => navigate('about')}" aria-label="About page">about</a>
     </li>
 
     <!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
          the blog data when we hover over the link or tap it on a touchscreen -->
     <!-- svelte-ignore a11y-missing-attribute -->
     <li>
-      <a rel=prefetch on:click|preventDefault="{e => navigate('blog')}">blog</a>
+      <a rel=prefetch on:click|preventDefault="{e => navigate('blog')}" aria-label="Blog">blog</a>
     </li>
   </ul>
   {#if isOpen}
@@ -240,7 +240,7 @@
 <ul class="toolbar" style="background-color: {isOpen ? 'transparent' : 'var(--secondary)'}">
   <li>
     <!-- svelte-ignore a11y-missing-attribute -->
-    <a on:click|preventDefault="{toggleTheme}">
+    <a on:click|preventDefault="{toggleTheme}" aria-label="Toggle dark and light mode">
       <Icon name={isDarkThemed ? 'sun' : 'moon'} color={iconColor}/>
     </a>
   </li>
@@ -254,12 +254,12 @@
         <Icon name='theme' color="#70C1B3"/>
       </div>
     </Popover>
-    <a href bind:this={trigger} on:click|preventDefault="{e => showThemePane = !showThemePane}">
+    <a href bind:this={trigger} on:click|preventDefault="{e => showThemePane = !showThemePane}" aria-label="Switch theme">
       <Icon name='theme' color={iconColor}/>
     </a>
   </li>
   <li>
-    <a href on:click|preventDefault="{toggleRead}">
+    <a href on:click|preventDefault="{toggleRead}" aria-label="Read page">
       <Icon name={isReading ? 'stop' : 'play'} color={iconColor}/>
     </a>
   </li>
