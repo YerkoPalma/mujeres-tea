@@ -13,12 +13,12 @@
     margin: 0 auto;
     box-sizing: border-box;
     z-index: 10;
+    padding-bottom: 4rem;
   }
   /* Smartphones (portrait) ----------- */
   @media only screen and (max-width : 768px) {
     main {
       padding-top: 4rem;
-      padding-bottom: 4rem;
     }
   }
 </style>
