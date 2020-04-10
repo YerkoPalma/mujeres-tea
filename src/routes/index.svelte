@@ -1,28 +1,23 @@
+<script>
+  import SvgClip from '../components/SvgClip.svelte'
+
+  const images = [
+    { src: 'kiwihug.jpg', desc: 'Photo by Kiwihug on Unsplash' },
+    { src: 'bianca.jpg', desc: 'Photo by Bianca Ackermann on Unsplash' },
+    { src: 'jacalyn.jpg', desc: 'Photo by Jacalyn on Unsplash' }
+  ]
+</script>
+
 <style>
-  h1, figure, p {
+  figure {
     text-align: center;
     margin: 0 auto;
-  }
-
-  h1 {
-    font-size: 2.8em;
-    text-transform: uppercase;
-    font-weight: 700;
-    margin: 0 0 0.5em 0;
-  }
-
-  figure {
-    margin: 0 0 1em 0;
-  }
-
-  p {
-    margin: 1em auto;
-  }
-
-  @media (min-width: 480px) {
-    h1 {
-      font-size: 4em;
-    }
+    position: fixed;
+    width: 100%;
+    left: 0;
+    height: 30%;
+    background-color: #F0F0F0;
+    bottom: 10rem;
   }
 </style>
 
@@ -30,10 +25,9 @@
   <title>Sapper project template</title>
 </svelte:head>
 
-<h1>Great success!</h1>
-
 <figure>
-  <figcaption>HIGH FIVE!</figcaption>
+  {#each images as {src, desc}, i}
+    <SvgClip src="{src}" desc="{desc}" left={i * 350} vertical={i % 2 !== 0}>
+    </SvgClip>
+  {/each}
 </figure>
-
-<p><strong>Try editing this file (src/routes/index.svelte) to test live reloading.</strong></p>
