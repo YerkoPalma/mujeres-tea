@@ -16,6 +16,17 @@
     left: 0;
     top: -4.5rem;
     transform: scale(.7);
+    user-select: none;
+  }
+  @media (max-width: 768px) {
+    img {
+      width: 80%;
+      top: -1.5rem;
+      transform: scale(.7);
+    }
+    path {
+      transform: scale(.5);
+    }
   }
 </style>
 
