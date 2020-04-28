@@ -2,11 +2,9 @@
   import Icon from './Icon.svelte'
   import Popover, { init } from './Popover.svelte'
   import { onMount } from 'svelte'
+  import { isOpen, isDarkThemed, iconColor } from '../stores/config.js'
 
   let trigger
-  let isDarkThemed = false
-  export let isOpen = false
-  export let iconColor
   let showThemePane = false
   let isReading = false
   let firstRead = true
@@ -63,13 +61,8 @@
     }
   })
   const toggleTheme = () => {
-    isDarkThemed = !isDarkThemed
+    isDarkThemed.set(!$isDarkThemed)
     document.body.classList.toggle('dark-theme')
-    if (isOpen) {
-      iconColor = getComputedStyle(document.body).getPropertyValue('--secondary-text')
-    } else {
-      iconColor = getComputedStyle(document.body).getPropertyValue('--primary-text')
-    }
   }
 </script>
 
@@ -109,11 +102,11 @@
     border: none;
   }
 </style>
-<ul class="toolbar" style="background-color: {isOpen ? 'transparent' : 'var(--secondary)'}">
+<ul class="toolbar" style="background-color: {$isOpen ? 'transparent' : 'var(--secondary)'}">
   <li>
     <!-- svelte-ignore a11y-missing-attribute -->
     <a on:click|preventDefault="{toggleTheme}" aria-label="Toggle dark and light mode">
-      <Icon name={isDarkThemed ? 'sun' : 'moon'} color={iconColor}/>
+      <Icon name={$isDarkThemed ? 'sun' : 'moon'} color={$iconColor}/>
     </a>
   </li>
   <li>
@@ -127,12 +120,12 @@
       </div>
     </Popover>
     <a href bind:this={trigger} on:click|preventDefault="{e => showThemePane = !showThemePane}" aria-label="Switch theme">
-      <Icon name='theme' color={iconColor}/>
+      <Icon name='theme' color={$iconColor}/>
     </a>
   </li>
   <li>
     <a href on:click|preventDefault="{toggleRead}" aria-label="Read page">
-      <Icon name={isReading ? 'stop' : 'play'} color={iconColor}/>
+      <Icon name={isReading ? 'stop' : 'play'} color={$iconColor}/>
     </a>
   </li>
 </ul>

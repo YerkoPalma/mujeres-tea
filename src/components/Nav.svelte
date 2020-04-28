@@ -5,6 +5,7 @@
   import { tweened } from 'svelte/motion'
   import { cubicOut } from 'svelte/easing'
   import { goto } from '@sapper/app'
+  import { isOpen, iconColor } from '../stores/config.js'
 
   let btn
   const left = tweened(-500, {
@@ -18,8 +19,6 @@
   export let segment
 
   let nav
-  let iconColor
-  let isOpen = false
   let toggle
   let primary
   let secondary
@@ -27,20 +26,17 @@
   let mobileFactor = 3
 
   onMount(() => {
-    iconColor = getComputedStyle(document.body).getPropertyValue('--primary-text')
     mobileFactor = window.matchMedia('(max-width : 768px)').matches ? 2 : 3
 
     toggle = (e) => {
-      if (!isOpen) {
+      if (!$isOpen) {
         left.set(0)
         border.set(2)
-        iconColor = getComputedStyle(document.body).getPropertyValue('--secondary-text')
       } else {
         left.set(-getComputedStyle(nav).width.slice(0, -2))
         border.set(0)
-        iconColor = getComputedStyle(document.body).getPropertyValue('--primary-text')
       }
-      isOpen = !isOpen
+      isOpen.set(!$isOpen)
     }
   })
 
@@ -130,9 +126,9 @@
 </style>
 
 <button on:click="{toggle}" bind:this={btn} aria-label="Menu">
-  <Icon name="menu" size="40" color={iconColor} isOpen={isOpen}></Icon>
+  <Icon name="menu" size="40" color={$iconColor} isOpen={$isOpen}></Icon>
 </button>
-<nav style="z-index:{isOpen ? 50 : 0};border: var(--primary) solid {$border}rem; border-left: var(--primary) solid {$border * 4}rem; border-bottom: var(--primary) solid {$border * mobileFactor}rem;">
+<nav style="z-index:{$isOpen ? 50 : 0};border: var(--primary) solid {$border}rem; border-left: var(--primary) solid {$border * 4}rem; border-bottom: var(--primary) solid {$border * mobileFactor}rem;">
   <ul class="nav" bind:this={nav} style="left:{$left}px;">
     <!-- svelte-ignore a11y-missing-attribute -->
     <li>
@@ -150,8 +146,8 @@
       <a rel=prefetch on:click|preventDefault="{e => navigate('blog')}" aria-label="Blog">blog</a>
     </li>
   </ul>
-  {#if isOpen}
+  {#if $isOpen}
     <div on:click="{toggle}" class="glass"></div>
   {/if}
 </nav>
-<Toolbar isOpen={isOpen} iconColor={iconColor}></Toolbar>
+<Toolbar></Toolbar>
