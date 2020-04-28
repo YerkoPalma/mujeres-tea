@@ -25,6 +25,10 @@
 
 <Nav {segment}/>
 
+<svelte:head>
+  <title>PlanTea {segment ? `| ${segment}` : ''}</title>
+</svelte:head>
+
 <main>
   <slot></slot>
 </main>

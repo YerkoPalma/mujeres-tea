@@ -138,9 +138,6 @@
     <li>
       <a on:click|preventDefault="{e => navigate('about')}" aria-label="About page">about</a>
     </li>
-
-    <!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
-         the blog data when we hover over the link or tap it on a touchscreen -->
     <!-- svelte-ignore a11y-missing-attribute -->
     <li>
       <a rel=prefetch on:click|preventDefault="{e => navigate('blog')}" aria-label="Blog">blog</a>

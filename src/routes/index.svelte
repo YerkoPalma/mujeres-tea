@@ -1,14 +1,17 @@
 <script>
-  import SvgClip from '../components/SvgClip.svelte'
+  import Thumbnail from '../components/Thumbnail.svelte'
   import { tweened } from 'svelte/motion'
   import { cubicOut } from 'svelte/easing'
   import { swipe } from '../actions/swipe.js'
+  import Flickity from 'flickity'
 
   const images = [
     { src: 'kiwihug.jpg', desc: 'Photo by Kiwihug on Unsplash' },
     { src: 'bianca.jpg', desc: 'Photo by Bianca Ackermann on Unsplash' },
-    { src: 'jacalyn.jpg', desc: 'Photo by Jacalyn on Unsplash' },
-    { src: 'adrien.jpg', desc: 'Photo by Adrien Delforge on Unsplash' }
+    { src: 'kiwihug.jpg', desc: 'Photo by Jacalyn on Unsplash' },
+    { src: 'bianca.jpg', desc: 'Photo by Adrien Delforge on Unsplash' },
+    { src: 'kiwihug.jpg', desc: 'Photo by Jacalyn on Unsplash' },
+    { src: 'bianca.jpg', desc: 'Photo by Adrien Delforge on Unsplash' }
   ]
 
   let slider
@@ -46,10 +49,6 @@
   }
 </style>
 
-<svelte:head>
-  <title>Sapper project template</title>
-</svelte:head>
-
 <figure
   use:swipe
   class:active
@@ -59,7 +58,7 @@
   on:swipe={handleMousemove}
   >
   {#each images as {src, desc}, i}
-    <SvgClip src="{src}" desc="{desc}" left={i * 350 + $scrollLeft > i * 350 ? i * 350 : i * 350 + $scrollLeft} vertical={i % 2 !== 0}>
-    </SvgClip>
+    <Thumbnail source="{src}" description="{desc}">
+    </Thumbnail>
   {/each}
 </figure>
