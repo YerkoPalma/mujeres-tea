@@ -3,7 +3,7 @@
   import { tweened } from 'svelte/motion'
   import { cubicOut } from 'svelte/easing'
   import { swipe } from '../actions/swipe.js'
-  import Flickity from 'flickity'
+  import { onMount } from 'svelte'
 
   const images = [
     { src: 'kiwihug.jpg', desc: 'Photo by Kiwihug on Unsplash' },
@@ -26,6 +26,19 @@
     e.preventDefault()
     if (e.detail.direction === 'left' || e.detail.direction === 'right') scrollLeft.set(200 * Math.sign(e.detail.distance))
   }
+  onMount(() => {
+    if (window) {
+      import('flickity')
+        .then(Flickity => {
+          const flicky = new Flickity.default(slider, {
+            freeScroll: true,
+            contain: true,
+            prevNextButtons: false,
+            pageDots: false
+          })
+        })
+    }
+  })
 </script>
 
 <style>
@@ -56,9 +69,10 @@
   on:swipestart={e => active = true}
   on:swipeend={e => active = false}
   on:swipe={handleMousemove}
+  class="main-carousel"
   >
   {#each images as {src, desc}, i}
-    <Thumbnail source="{src}" description="{desc}">
+    <Thumbnail source="{src}" description="{desc}" class="carousel-cell">
     </Thumbnail>
   {/each}
 </figure>
