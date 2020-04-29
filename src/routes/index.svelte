@@ -2,16 +2,34 @@
   import Thumbnail from '../components/Thumbnail.svelte'
   import { tweened } from 'svelte/motion'
   import { cubicOut } from 'svelte/easing'
-  import { swipe } from '../actions/swipe.js'
   import { onMount } from 'svelte'
 
-  const images = [
-    { src: 'kiwihug.jpg', desc: 'Photo by Kiwihug on Unsplash' },
-    { src: 'bianca.jpg', desc: 'Photo by Bianca Ackermann on Unsplash' },
-    { src: 'kiwihug.jpg', desc: 'Photo by Jacalyn on Unsplash' },
-    { src: 'bianca.jpg', desc: 'Photo by Adrien Delforge on Unsplash' },
-    { src: 'kiwihug.jpg', desc: 'Photo by Jacalyn on Unsplash' },
-    { src: 'bianca.jpg', desc: 'Photo by Adrien Delforge on Unsplash' }
+  const projects = [
+    {
+      name: 'Kiwihug Project',
+      link: '',
+      image: { src: 'kiwihug.jpg', desc: 'Photo by Kiwihug on Unsplash' }
+    }, {
+      name: 'Bianca Project',
+      link: '',
+      image: { src: 'bianca.jpg', desc: 'Photo by Bianca Ackermann on Unsplash' }
+    }, {
+      name: 'Kiwihug Project',
+      link: '',
+      image: { src: 'kiwihug.jpg', desc: 'Photo by Kiwihug on Unsplash' }
+    }, {
+      name: 'Bianca Project',
+      link: '',
+      image: { src: 'bianca.jpg', desc: 'Photo by Bianca Ackermann on Unsplash' }
+    }, {
+      name: 'Kiwihug Project',
+      link: '',
+      image: { src: 'kiwihug.jpg', desc: 'Photo by Kiwihug on Unsplash' }
+    }, {
+      name: 'Bianca Project',
+      link: '',
+      image: { src: 'bianca.jpg', desc: 'Photo by Bianca Ackermann on Unsplash' }
+    }
   ]
 
   let slider
@@ -20,12 +38,6 @@
     duration: 400,
     easing: cubicOut
   })
-  const handleMousemove = (e) => {
-    console.log('[active]', active ? e : null)
-    if (!active) return;
-    e.preventDefault()
-    if (e.detail.direction === 'left' || e.detail.direction === 'right') scrollLeft.set(200 * Math.sign(e.detail.distance))
-  }
   onMount(() => {
     if (window) {
       import('flickity')
@@ -55,6 +67,20 @@
   .active {
     cursor: grabbing;
   }
+  .hero {
+    display: flex;
+    align-items: center;
+  }
+  .hero img {
+    width: 150px;
+    display: inline-block;
+  }
+  .hero span {
+    color: #8048b7;
+    margin: 2rem auto auto 1rem;
+    font-size: 2rem;
+    width: 60%;
+  }
   @media (max-width: 768px) {
     figure {
     height: 20%;
@@ -62,17 +88,17 @@
   }
 </style>
 
+<div class="hero">
+  <img src="logo.png" alt="Logo planTea">
+  <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit</span>
+</div>
 <figure
-  use:swipe
   class:active
   bind:this={slider}
-  on:swipestart={e => active = true}
-  on:swipeend={e => active = false}
-  on:swipe={handleMousemove}
   class="main-carousel"
   >
-  {#each images as {src, desc}, i}
-    <Thumbnail source="{src}" description="{desc}" class="carousel-cell">
+  {#each projects as {name, link, image}, i}
+    <Thumbnail name={name} link={link} source={image.src} description={image.desc} class="carousel-cell">
     </Thumbnail>
   {/each}
 </figure>

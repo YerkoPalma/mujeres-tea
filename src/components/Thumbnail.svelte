@@ -1,10 +1,50 @@
 <script>
+  import { tweened } from 'svelte/motion'
+  import { cubicOut } from 'svelte/easing'
+
+  const s = tweened([
+    [2, 2, 0],
+    [3, 1, -2],
+    [1, 5, 0]
+  ], {
+    duration: 400,
+    easing: cubicOut
+  })
+  const b = tweened(-250, {
+    duration: 400,
+    easing: cubicOut
+  })
+
+  const handleMouseEnter = () => {
+    s.set([
+      [16, 24, 2],
+      [6, 30, 5],
+      [8, 10, -7]
+    ])
+    b.set(0)
+  }
+  const handleMouseLeave = () => {
+    s.set([
+      [2, 2, 0],
+      [3, 1, -2],
+      [1, 5, 0]
+    ])
+    b.set(-250)
+  }
   export let source
   export let description
   export let link
+  export let name
 </script>
 
 <style>
+  span {
+    width: 100%;
+    position: absolute;
+    display: block;
+    bottom: -30px;
+    background-color: #eee;
+  }
   .thumbnail {
     width: 250px;
     height: 250px;
@@ -16,7 +56,6 @@
     display: block;
     cursor: pointer;
     overflow: hidden;
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
   }
   .thumbnail a img {
     display: block;
@@ -31,7 +70,12 @@
 </style>
 
 <div class="thumbnail">
-  <a href="{link}">
+  <a
+    on:mouseenter={handleMouseEnter}
+    on:mouseleave={handleMouseLeave}
+    href="{link}"
+    style="box-shadow: 0 {$s[0][0]}px {$s[0][1]}px {$s[0][2]}px rgba(0,0,0,0.14), 0 {$s[1][0]}px {$s[1][1]}px {$s[1][2]}px rgba(0,0,0,0.12), 0 {$s[2][0]}px {$s[2][1]}px {$s[2][2]}px rgba(0,0,0,0.2)">
     <img src="{source}" alt="{description}">
+    <span style="bottom: {$b}px" class="caption">{name}</span>
   </a>
 </div>
