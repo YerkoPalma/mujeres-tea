@@ -70,6 +70,7 @@
   .hero {
     display: flex;
     align-items: center;
+    justify-content: center;
   }
   .hero img {
     width: 150px;
@@ -83,7 +84,13 @@
   }
   @media (max-width: 768px) {
     figure {
-    height: 20%;
+      height: 20%;
+    }
+    .hero img {
+      width: 200px;
+    }
+    .hero span {
+      display: none;
     }
   }
 </style>

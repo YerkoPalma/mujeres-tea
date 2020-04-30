@@ -47,7 +47,6 @@
   }
   .thumbnail {
     width: 250px;
-    height: 250px;
     display: inline-block;
     margin: 1rem .5rem;
   }
@@ -66,6 +65,34 @@
     top: 0;
     bottom: 0;
     width: 100%;
+  }
+  @media (max-width: 768px) {
+    .thumbnail {
+      width: 100%;
+    }
+    .thumbnail a {
+      position: relative;
+      display: flex;
+      cursor: pointer;
+      overflow: hidden;
+      justify-content: space-between;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      box-shadow: none !important;
+    }
+    .thumbnail a img {
+      width: 50%;
+    }
+    .thumbnail .caption {
+      position: unset;
+      font-size: 1.3rem;
+      padding: 0 1.2rem;
+      letter-spacing: .01rem;
+      text-align: left;
+      /* text-overflow: ellipsis;
+      white-space: nowrap; */
+      overflow: hidden;
+    }
   }
 </style>
 
