@@ -55,6 +55,8 @@
     display: block;
     cursor: pointer;
     overflow: hidden;
+    text-decoration: none;
+    color: #8048b7;
   }
   .thumbnail a img {
     display: block;
