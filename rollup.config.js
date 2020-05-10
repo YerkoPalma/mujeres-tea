@@ -6,6 +6,7 @@ import babel from 'rollup-plugin-babel'
 import { terser } from 'rollup-plugin-terser'
 import config from 'sapper/config/rollup.js'
 import pkg from './package.json'
+import env from './environment.json'
 const { markdown } = require('svelte-preprocess-markdown')
 
 const mode = process.env.NODE_ENV
@@ -67,7 +68,10 @@ export default {
     plugins: [
       replace({
         'process.browser': false,
-        'process.env.NODE_ENV': JSON.stringify(mode)
+        'process.env.NODE_ENV': JSON.stringify(mode),
+        'process.env.APP_ID': process.env.APP_ID || env.APP_ID,
+        'process.env.APP_SECRET': process.env.APP_SECRET || env.APP_SECRET,
+        'process.env.REDIRECT_URI': process.env.REDIRECT_URI || env.REDIRECT_URI
       }),
       svelte({
         generate: 'ssr',
