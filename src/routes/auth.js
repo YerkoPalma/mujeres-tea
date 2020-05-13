@@ -1,7 +1,12 @@
 import httpie from 'httpie'
 import * as fs from 'fs'
 import path from 'path'
-import env from '../../environment.json'
+// import env from '../../environment.json'
+let env = {}
+try {
+  env = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'environment.json')))
+} catch (err) {
+}
 
 export async function get (req, res) {
   if (req.query && req.query.code) {
