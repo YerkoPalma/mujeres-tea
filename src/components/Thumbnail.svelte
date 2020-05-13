@@ -103,6 +103,7 @@
     on:mouseenter={handleMouseEnter}
     on:mouseleave={handleMouseLeave}
     href="{link}"
+    target="_blank"
     style="box-shadow: 0 {$s[0][0]}px {$s[0][1]}px {$s[0][2]}px rgba(0,0,0,0.14), 0 {$s[1][0]}px {$s[1][1]}px {$s[1][2]}px rgba(0,0,0,0.12), 0 {$s[2][0]}px {$s[2][1]}px {$s[2][2]}px rgba(0,0,0,0.2)">
     <img src="{source}" alt="{description}">
     <span style="bottom: {$b}px" class="caption">{name}</span>

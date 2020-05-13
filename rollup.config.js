@@ -24,6 +24,7 @@ export default {
       replace({
         'process.browser': true,
         'process.env.NODE_ENV': JSON.stringify(mode),
+        'process.env.ACCESS_TOKEN': JSON.stringify(process.env.ACCESS_TOKEN || env.ACCESS_TOKEN),
         'process.env.APP_ID': JSON.stringify(process.env.APP_ID || env.APP_ID),
         'process.env.APP_SECRET': JSON.stringify(process.env.APP_SECRET || env.APP_SECRET),
         'process.env.REDIRECT_URI': JSON.stringify(process.env.REDIRECT_URI || env.REDIRECT_URI)
@@ -73,6 +74,7 @@ export default {
       replace({
         'process.browser': false,
         'process.env.NODE_ENV': JSON.stringify(mode),
+        'process.env.ACCESS_TOKEN': JSON.stringify(process.env.ACCESS_TOKEN || env.ACCESS_TOKEN),
         'process.env.APP_ID': JSON.stringify(process.env.APP_ID || env.APP_ID),
         'process.env.APP_SECRET': JSON.stringify(process.env.APP_SECRET || env.APP_SECRET),
         'process.env.REDIRECT_URI': JSON.stringify(process.env.REDIRECT_URI || env.REDIRECT_URI)

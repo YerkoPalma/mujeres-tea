@@ -1,36 +1,30 @@
+<script context="module">
+  export async function preload () {
+    const url = `https://graph.instagram.com/me/media?fields=caption,id,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=${process.env.ACCESS_TOKEN}`
+    console.log('[fetching]', url)
+    const res = await this.fetch(url)
+    const json = await res.json()
+    const projects = json.data.map(p => {
+      let d = new Date(p.timestamp)
+      return {
+        name: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`,
+        link: p.permalink,
+        image: {
+          src: p.media_type === 'VIDEO' ? p.thumbnail_url : p.media_url,
+          desc: p.caption || 'Instagram media'
+        }
+      }
+    })
+    return { projects }
+  }
+</script>
 <script>
   import Thumbnail from '../components/Thumbnail.svelte'
   import { tweened } from 'svelte/motion'
   import { cubicOut } from 'svelte/easing'
   import { onMount } from 'svelte'
 
-  const projects = [
-    {
-      name: 'Kiwihug Project',
-      link: '',
-      image: { src: 'kiwihug.jpg', desc: 'Photo by Kiwihug on Unsplash' }
-    }, {
-      name: 'Bianca Project',
-      link: '',
-      image: { src: 'bianca.jpg', desc: 'Photo by Bianca Ackermann on Unsplash' }
-    }, {
-      name: 'Kiwihug Project',
-      link: '',
-      image: { src: 'kiwihug.jpg', desc: 'Photo by Kiwihug on Unsplash' }
-    }, {
-      name: 'Bianca Project',
-      link: '',
-      image: { src: 'bianca.jpg', desc: 'Photo by Bianca Ackermann on Unsplash' }
-    }, {
-      name: 'Kiwihug Project',
-      link: '',
-      image: { src: 'kiwihug.jpg', desc: 'Photo by Kiwihug on Unsplash' }
-    }, {
-      name: 'Bianca Project',
-      link: '',
-      image: { src: 'bianca.jpg', desc: 'Photo by Bianca Ackermann on Unsplash' }
-    }
-  ]
+  export let projects
 
   let slider
   let active = false
