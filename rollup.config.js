@@ -5,6 +5,7 @@ import svelte from 'rollup-plugin-svelte'
 import babel from 'rollup-plugin-babel'
 import { terser } from 'rollup-plugin-terser'
 import config from 'sapper/config/rollup.js'
+import json from '@rollup/plugin-json'
 import pkg from './package.json'
 import env from './environment.json'
 const { markdown } = require('svelte-preprocess-markdown')
@@ -22,7 +23,10 @@ export default {
     plugins: [
       replace({
         'process.browser': true,
-        'process.env.NODE_ENV': JSON.stringify(mode)
+        'process.env.NODE_ENV': JSON.stringify(mode),
+        'process.env.APP_ID': JSON.stringify(process.env.APP_ID || env.APP_ID),
+        'process.env.APP_SECRET': JSON.stringify(process.env.APP_SECRET || env.APP_SECRET),
+        'process.env.REDIRECT_URI': JSON.stringify(process.env.REDIRECT_URI || env.REDIRECT_URI)
       }),
       svelte({
         dev,
@@ -69,9 +73,9 @@ export default {
       replace({
         'process.browser': false,
         'process.env.NODE_ENV': JSON.stringify(mode),
-        'process.env.APP_ID': process.env.APP_ID || env.APP_ID,
-        'process.env.APP_SECRET': process.env.APP_SECRET || env.APP_SECRET,
-        'process.env.REDIRECT_URI': process.env.REDIRECT_URI || env.REDIRECT_URI
+        'process.env.APP_ID': JSON.stringify(process.env.APP_ID || env.APP_ID),
+        'process.env.APP_SECRET': JSON.stringify(process.env.APP_SECRET || env.APP_SECRET),
+        'process.env.REDIRECT_URI': JSON.stringify(process.env.REDIRECT_URI || env.REDIRECT_URI)
       }),
       svelte({
         generate: 'ssr',
@@ -82,7 +86,8 @@ export default {
       resolve({
         dedupe: ['svelte']
       }),
-      commonjs()
+      commonjs(),
+      json()
     ],
     external: Object.keys(pkg.dependencies).concat(
       require('module').builtinModules || Object.keys(process.binding('natives'))
