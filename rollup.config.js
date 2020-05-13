@@ -7,8 +7,15 @@ import { terser } from 'rollup-plugin-terser'
 import config from 'sapper/config/rollup.js'
 import json from '@rollup/plugin-json'
 import pkg from './package.json'
-import env from './environment.json'
+import * as fs from 'fs'
+// import env from './environment.json'
 const { markdown } = require('svelte-preprocess-markdown')
+
+let env = {}
+try {
+  env = JSON.parse(fs.readFileSync('environment.json'))
+} catch (err) {
+}
 
 const mode = process.env.NODE_ENV
 const dev = mode === 'development'

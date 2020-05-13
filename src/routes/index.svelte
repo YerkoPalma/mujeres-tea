@@ -1,7 +1,7 @@
 <script context="module">
   export async function preload () {
     const url = `https://graph.instagram.com/me/media?fields=caption,id,media_type,media_url,permalink,thumbnail_url,timestamp,username&access_token=${process.env.ACCESS_TOKEN}`
-    console.log('[fetching]', url)
+
     const res = await this.fetch(url)
     const json = await res.json()
     const projects = json.data.map(p => {
